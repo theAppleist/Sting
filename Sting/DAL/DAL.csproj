@@ -46,6 +46,7 @@
     <Compile Include="Communicator\IInsertCommuncitor.cs" />
     <Compile Include="Communicator\IReadCommunicator.cs" />
     <Compile Include="Communicator\IUpdateCommunicator.cs" />
+    <Compile Include="Communicator\TableCommunicator.cs" />
     <Compile Include="Communicator\TableCommunicatorParameters.cs" />
     <Compile Include="Filter\ComplexFilter.cs" />
     <Compile Include="Filter\ComplexFilterOperator.cs" />
