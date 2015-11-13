@@ -9,6 +9,6 @@ namespace DAL.Communicator
 {
     public interface IUpdateCommunicator
     {
-        bool Update(IDictionary<string, string> values, IFilter filter);
+        bool Update(IDictionary<string, string> values, params IFilter[] filters);
     }
 }
