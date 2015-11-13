@@ -19,7 +19,7 @@ namespace Sting.Controllers
         {
             var parameters = new TableCommunicationParameters("dbo.Users", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters,typeof(User));
-            return (User)communicator.GetRecords(new WhereFilter(new ComparisonFilter("Id", "" + id, FilterComparer.Types.Equals))).FirstOrDefault();
+            return (User)communicator.GetRecords(new SelectFilter(),new WhereFilter(new ComparisonFilter("Id", "" + id, FilterComparer.Types.Equals))).FirstOrDefault();
         }
 
         public void Post(User user)

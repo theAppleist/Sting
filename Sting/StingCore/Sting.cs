@@ -10,17 +10,17 @@ namespace StingCore
     public class Sting
     {
         public int StingId { get; set; }
-        public User UserId { get; set; }
-        public Place PlaceId { get; set; }
+        public User User { get; set; }
+        public Place Place { get; set; }
         public DateTime Timestamp { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
 
-        public Sting(int stingId, User userId, Place placeId, DateTime timestamp, string description, int price)
+        public Sting(int stingId, User user, Place place, DateTime timestamp, string description, int price)
         {
             StingId = stingId;
-            UserId = userId;
-            PlaceId = placeId;
+            User = user;
+            Place = place;
             Timestamp = timestamp;
             Description = description;
             Price = price;

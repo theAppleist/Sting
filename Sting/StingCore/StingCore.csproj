@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SqlStindModel.cs" />
     <Compile Include="Sting.cs" />
     <Compile Include="Place.cs" />
     <Compile Include="Position.cs" />
