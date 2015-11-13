@@ -50,11 +50,13 @@
     <Compile Include="Communicator\IUpdateCommunicator.cs" />
     <Compile Include="Communicator\TableCommunicator.cs" />
     <Compile Include="Communicator\TableCommunicatorParameters.cs" />
+    <Compile Include="Filter\CombinationFilter.cs" />
     <Compile Include="Filter\ComplexFilter.cs" />
     <Compile Include="Filter\ComplexFilterOperator.cs" />
     <Compile Include="Filter\ComparisonFilter.cs" />
     <Compile Include="Filter\FilterComparer.cs" />
     <Compile Include="Filter\IFilter.cs" />
+    <Compile Include="Filter\SetFilter.cs" />
     <Compile Include="Filter\WhereFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -21,7 +21,7 @@ namespace DAL.Filter
 
         public string GetFilterString()
         {
-            return string.Format("({0}{1}`{2}`)", Column, FilterComparer.ConvertToString(Comparer), Value);
+            return string.Format("({0}{1}'{2}')", Column, FilterComparer.ConvertToString(Comparer), Value);
         }
 
         public override string ToString()
