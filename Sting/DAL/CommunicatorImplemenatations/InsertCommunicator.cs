@@ -30,7 +30,7 @@ namespace DAL.CommunicatorImplemenatations
             {
                 
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(commandString))
+                using (SqlCommand command = new SqlCommand(commandString,connection))
                 {
                     id = (int)command.ExecuteScalar();
                 }
