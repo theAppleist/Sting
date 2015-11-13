@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommunicatorImplemenatations\DeleteCommunicator.cs" />
     <Compile Include="CommunicatorImplemenatations\InsertCommunicator.cs" />
     <Compile Include="CommunicatorImplemenatations\ReadCommunicator.cs" />
     <Compile Include="CommunicatorImplemenatations\UpdateCommunicator.cs" />

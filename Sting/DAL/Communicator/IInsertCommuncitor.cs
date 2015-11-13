@@ -9,6 +9,6 @@ namespace DAL.Communicator
 {
     public interface IInsertCommuncitor
     {
-        int Insert(object insertedObject, params IFilter[] filters);
+        int Insert(IFilter valuesFilter);
     }
 }
