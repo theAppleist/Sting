@@ -9,5 +9,9 @@ namespace Sting.Controllers
 {
     public class QueryController : ApiController
     {
+        public void GetSearch(string search)
+        {
+            
+        }
     }
 }
