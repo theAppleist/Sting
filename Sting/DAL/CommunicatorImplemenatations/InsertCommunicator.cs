@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Communicator;
+using DAL.Filters;
 
 namespace DAL.CommunicatorImplemenatations
 {
@@ -19,11 +20,11 @@ namespace DAL.CommunicatorImplemenatations
         {
         }
 
-        public int Insert(object insertedObject)
+        public int Insert(object insertedObject, params IFilter[] filters)
         {
             string values = GenerateValuesString(insertedObject);
-            string insertInto = tableName + "(" + GenerateColumsString() + ")";
-            var commandString = String.Format(InsertCommand, insertInto, values);
+            string insertInto = string.Format("{0} ({1})",tableName, GenerateColumsString());
+            var commandString = string.Format(InsertCommand, insertInto, values);
 
             int id = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -55,6 +56,7 @@ namespace DAL.CommunicatorImplemenatations
             builder.Remove(builder.Length - 1, 1);
             return builder.ToString();
         }
+
         private string GenerateKeysString(List<object> keys)
         {
             throw new NotImplementedException();
