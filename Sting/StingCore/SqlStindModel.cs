@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StingCore
 {
-    public class SqlStindModel
+    public class SqlStingModel
     {
         public int UserId { get; set; }
         public int PlaceId { get; set; }
@@ -14,7 +14,7 @@ namespace StingCore
         public string Description { get; set; }
         public float Price { get; set; }
 
-        public SqlStindModel(int userid,int placeId ,Sting sting)
+        public SqlStingModel(int userid,int placeId ,Sting sting)
         {
             UserId = userid;
             PlaceId = placeId;
