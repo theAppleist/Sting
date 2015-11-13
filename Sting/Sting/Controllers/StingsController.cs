@@ -21,7 +21,7 @@ namespace Sting.Controllers
         {
             var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
-            return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter());
+            return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter(), null);
         }
 
         public StingCore.Sting GetSting(int id)
@@ -41,7 +41,7 @@ namespace Sting.Controllers
             {
                 placeId = InsertPlace();
             }
-            var id = communcitor.Insert(new ValuesFilter(new SqlStindModel(sting.User.UserId, placeId, sting)));
+            var id = communcitor.Insert(new CombinationFilter(new CombinationFilter(new ValueFilter(sting.User.UserId), new ValueFilter(placeId)), new ValueFilter(sting)));
             if (id == -1)
             {
                 throw new HttpRequestException("cant add user ");
