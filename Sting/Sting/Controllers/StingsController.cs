@@ -29,7 +29,7 @@ namespace Sting.Controllers
         {
             var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
-            return (StingCore.Sting)communicator.GetRecords(new SelectFilter(), new WhereFilter(new ComparisonFilter("Id", "1", FilterComparer.Types.Equals)));
+            return (StingCore.Sting)communicator.GetRecords(new SelectFilter(), null, new WhereFilter(new ComparisonFilter("Id", "1", FilterComparer.Types.Equals)));
         }
 
         public void PostStings(StingCore.Sting sting)
