@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using DAL.Communicator;
+using DAL.CommunicatorImplemenatations;
+using DAL.Filters;
 using StingCore;
 
 namespace Sting.Controllers
@@ -12,12 +16,17 @@ namespace Sting.Controllers
     {
         public IEnumerable<Place> GetPlaces()
         {
-            throw new NotImplementedException();
+            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
+            IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
+            return (IEnumerable<Place>)communicator.GetRecords(new SelectFilter());
+        
         }
 
         public Place GetPlace(int id)
         {
-            throw new NotImplementedException();    
+            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
+            IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
+            return (Place)communicator.GetRecords(new SelectFilter(),new WhereFilter(new ComparisonFilter("Id",""+id,FilterComparer.Types.Equals)));
         }
 
 

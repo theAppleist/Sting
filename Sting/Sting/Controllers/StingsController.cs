@@ -17,23 +17,24 @@ namespace Sting.Controllers
     public class StingsController : ApiController
     {
         private readonly int LIMIT_STINGS_PER_REQUEST = 20;
+        private const string DB_NAME = "dbo.Stings";
         public IEnumerable<StingCore.Sting> GetStings()
         {
-            var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
+            var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
             return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter());
         }
 
         public StingCore.Sting GetSting(int id)
         {
-            var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
+            var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
             return (StingCore.Sting)communicator.GetRecords(new SelectFilter(), new WhereFilter(new ComparisonFilter("Id", "1", FilterComparer.Types.Equals)));
         }
 
         public void PostStings(StingCore.Sting sting)
         {
-            var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { });
+            var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { });
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
 
             var placeId = GetPlace(sting);
