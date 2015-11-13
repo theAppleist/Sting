@@ -13,7 +13,7 @@ namespace DAL.CommunicatorImplemenatations
     //refacctor becuse need to have columns in the order of properties
     public class InsertCommunicator :TableCommunicator, IInsertCommuncitor
     {
-        private readonly string InsertCommand = "INSERT INTO {0} OUTPUT INSERTED.ID VALUES {1}";  
+        private readonly string InsertCommand = "INSERT INTO {0} OUTPUT INSERTED.ID VALUES ({1})";  
         
         public InsertCommunicator(TableCommunicationParameters paramerters)
             :base(paramerters)
@@ -30,7 +30,7 @@ namespace DAL.CommunicatorImplemenatations
             {
                 
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(commandString))
+                using (SqlCommand command = new SqlCommand(commandString,connection))
                 {
                     id = (int)command.ExecuteScalar();
                 }
