@@ -18,7 +18,7 @@ namespace Sting.Controllers
         {
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
-            return (IEnumerable<Place>)communicator.GetRecords(new SelectFilter());
+            return (IEnumerable<Place>)communicator.GetRecords(new SelectFilter(),null);
         
         }
 
