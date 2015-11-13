@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.CommunicatorImplemenatations
 {
-    public class UpdateCommunicator : TableCommunicator : 
+    public class UpdateCommunicator  
     {
     }
 }
