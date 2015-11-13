@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,30 +21,41 @@ namespace Sting.Controllers
         {
             var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
-            return (IEnumerable<StingCore.Sting>) communicator.GetRecords(new SelectFilter());
+            return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter());
         }
 
         public StingCore.Sting GetSting(int id)
         {
             var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
-            return (StingCore.Sting)communicator.GetRecords(new SelectFilter(),new WhereFilter(new ComparisonFilter("Id","1",FilterComparer.Types.Equals)));
+            return (StingCore.Sting)communicator.GetRecords(new SelectFilter(), new WhereFilter(new ComparisonFilter("Id", "1", FilterComparer.Types.Equals)));
         }
 
         public void PostStings(StingCore.Sting sting)
         {
-            var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>{});
+            var parameters = new TableCommunicationParameters("dbo.Stings", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { });
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
-            var userid = 1;
-            var placeId = 1;
-            var id = communcitor.Insert(new SqlStindModel(userid,placeId,sting));
+
+            var placeId = GetPlace(sting);
+            if (placeId == -1)
+            {
+                placeId = InsertPlace();
+            }
+            var id = communcitor.Insert(new ValuesFilter(new SqlStindModel(sting.User.UserId, placeId, sting)));
             if (id == -1)
             {
                 throw new HttpRequestException("cant add user ");
             }
         }
 
-        public void PutStings(int id ,[FromBody]StingCore.Sting update)
+        private int InsertPlace()
+        {
+            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { });
+            IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
+            
+        }
+
+        public void PutStings(int id, [FromBody]StingCore.Sting update)
         {
             throw new NotImplementedException();
         }
@@ -52,6 +65,28 @@ namespace Sting.Controllers
             throw new NotImplementedException();
         }
 
-        private int SelectId(string tableName,)
+        private int GetPlace(StingCore.Sting sting)
+        {
+            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
+            
+            int id = -1;
+            using (var conn = new SqlConnection(parameters.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand("dbo.GetMatchingPlaces", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@lat", sting.Place.Position.Langtitude));
+                    command.Parameters.Add(new SqlParameter("@lot", sting.Place.Position.Longtitude));
+                    command.Parameters.Add(new SqlParameter("@maxDistance", 1));
+                    command.Parameters.Add(new SqlParameter("@name", sting.Place.Name));
+
+                    var reader = command.ExecuteReader();
+                    id  = reader.GetInt32(0);
+                }
+            }
+            return id;
+
+        }
+
     }
 }

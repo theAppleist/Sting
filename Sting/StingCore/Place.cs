@@ -9,18 +9,18 @@ namespace StingCore
     public class Place
     {
         public int PlaceId { get; set; }
-        public Position Position { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public User Owner { get; set; }
+        public string Description { get; set; }
+        public Position Position { get; set; }
 
-        public Place(int placeId, Position position, string name, string description, User owner)
+        public Place(int placeId, string name, User owner, string description, Position position)
         {
             PlaceId = placeId;
-            Position = position;
             Name = name;
-            Description = description;
             Owner = owner;
-        }
+            Description = description;
+            Position = position;
+        }   
     }
 }

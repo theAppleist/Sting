@@ -26,7 +26,7 @@ namespace Sting.Controllers
         {
             var parameters = new TableCommunicationParameters("dbo.Users",ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,new List<string>{"RoleId,FirstName,LasstName"} );
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
-            var id =communcitor.Insert(user);
+            var id =communcitor.Insert(new ValuesFilter(user));
             if (id == -1)
             {
                 throw  new HttpRequestException("cant add user ");
