@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StingCore
 {
-    public class Place
+    public class Place : StingAbstractModel
     {
         public int PlaceId { get; set; }
         public string Name { get; set; }

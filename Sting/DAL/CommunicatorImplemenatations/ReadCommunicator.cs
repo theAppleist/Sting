@@ -68,7 +68,8 @@ namespace DAL.CommunicatorImplemenatations
             for (int i = 0; i < flatParameters.Length; i++)
             {
                 var property = type.GetProperties().ElementAt(propertiesIndex);
-                if (property.GetType().IsPrimitive)
+                var t = property.GetType(); 
+                if (!property.GetType().IsSubclassOf(typeof(StingCore.StingAbstractModel)))
                 {
                     properties[propertiesIndex] = flatParameters[i];
                 }

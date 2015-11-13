@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StingCore
 {
-    public class User
+    public class User : StingAbstractModel
     {
         public int UserId { get; set; }
         public string FirstName { get; set; }
@@ -15,7 +15,7 @@ namespace StingCore
 
         
 
-        public User(int userid,string firstName, string lastName, int roleId)
+        public User(int userid,int roleId,string firstName, string lastName)
         {
             UserId = userid;
             FirstName = firstName;
