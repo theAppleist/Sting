@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StingCore
 {
-    public class Position
+    public class Position : StingAbstractModel
     {
         public float Longtitude { get; private set; }
         public float Langtitude { get; private set; }

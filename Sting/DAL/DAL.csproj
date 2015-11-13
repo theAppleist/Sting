@@ -67,6 +67,12 @@
     <Compile Include="Filters\WhereFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StingCore\StingCore.csproj">
+      <Project>{e76981b9-7e29-431e-b50d-35c5ba8798e8}</Project>
+      <Name>StingCore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

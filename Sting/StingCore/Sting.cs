@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StingCore
 {
-    public class Sting
+    public class Sting : StingAbstractModel
     {
         public int StingId { get; set; }
         public User User { get; set; }
