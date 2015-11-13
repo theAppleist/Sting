@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Communicator
 {
-    public interface ICommunicator
+    public interface IReadCommunicator
     {
         Type GetCommunicatorModelType();
         IEnumerable<object> GetRecords(IFilter filter);
