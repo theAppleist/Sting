@@ -29,14 +29,19 @@ namespace DAL.CommunicatorImplemenatations
             return _communicatorType;
         }
 
-        public IEnumerable<object> GetRecords(IFilter filter)
+        public IEnumerable<object> GetRecords(params IFilter[] filters)
         {
             List<object> records = new List<object>();
             using (SqlConnection client = new SqlConnection(connectionString))
             {
                 using(SqlCommand command = client.CreateCommand())
                 {
-                    command.CommandText = string.Format("SELECT * FROM {0} {1}", tableName, filter.GetFilterString());
+                    string baseQuery = string.Format("SELECT * FROM {0}");
+                    foreach (IFilter filter in filters)
+                    {
+                        baseQuery += string.Format(" {0}", filter.GetFilterString());
+                    }
+                    command.CommandText = baseQuery;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())

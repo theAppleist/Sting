@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CommunicatorImplemenatations\InsertCommunicator.cs" />
     <Compile Include="CommunicatorImplemenatations\ReadCommunicator.cs" />
+    <Compile Include="CommunicatorImplemenatations\UpdateCommunicator.cs" />
     <Compile Include="Communicator\IDeleteCommunicator.cs" />
     <Compile Include="Communicator\IInsertCommuncitor.cs" />
     <Compile Include="Communicator\IReadCommunicator.cs" />
