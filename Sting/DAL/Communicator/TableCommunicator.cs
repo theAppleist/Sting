@@ -10,11 +10,12 @@ namespace DAL.Communicator
     {
         protected readonly string connectionString;
         protected readonly string tableName;
-
+        protected readonly IEnumerable<string> columns;
         public TableCommunicator(TableCommunicationParameters parameters)
         {
             connectionString = parameters.ConnectionString;
             tableName = parameters.TableName;
+            columns = parameters.Columns;
         }
     }
 }

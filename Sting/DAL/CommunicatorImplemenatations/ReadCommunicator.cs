@@ -18,7 +18,7 @@ namespace DAL.CommunicatorImplemenatations
 
         public IEnumerable<string> GetColumns()
         {
-            
+            return columns;
         }
 
         public Type GetCommunicatorModelType()
