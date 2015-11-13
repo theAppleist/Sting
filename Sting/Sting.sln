@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24606.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sting", "Sting\Sting.csproj", "{ADE03D6C-3C4E-419D-9584-95F8B716173D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StingCore", "StingCore\StingCore.csproj", "{E76981B9-7E29-431E-B50D-35C5BA8798E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{ADE03D6C-3C4E-419D-9584-95F8B716173D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADE03D6C-3C4E-419D-9584-95F8B716173D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADE03D6C-3C4E-419D-9584-95F8B716173D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E76981B9-7E29-431E-B50D-35C5BA8798E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E76981B9-7E29-431E-B50D-35C5BA8798E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E76981B9-7E29-431E-B50D-35C5BA8798E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E76981B9-7E29-431E-B50D-35C5BA8798E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
