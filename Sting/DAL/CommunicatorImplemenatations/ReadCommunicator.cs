@@ -38,6 +38,7 @@ namespace DAL.CommunicatorImplemenatations
             }
             using (SqlConnection client = new SqlConnection(connectionString))
             {
+                client.Open();
                 using(SqlCommand command = client.CreateCommand())
                 {
                     string baseQuery = string.Format("{0} {1} FROM {2}", select.GetFilterString(), valuesFilter.GetFilterString(), tableName);

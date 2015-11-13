@@ -21,6 +21,7 @@ namespace DAL.CommunicatorImplemenatations
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = string.Format("DELETE FROM {0} {1}", tableName, filter);
