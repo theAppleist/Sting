@@ -75,6 +75,7 @@ namespace Sting.Controllers
             int id = -1;
             using (var conn = new SqlConnection(parameters.ConnectionString))
             {
+                conn.Open();
                 using (SqlCommand command = new SqlCommand("dbo.GetMatchingPlaces", conn))
                 {
                     command.CommandType = CommandType.StoredProcedure;
