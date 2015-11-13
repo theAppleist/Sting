@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DAL.Filter
 {
-    public class Filter : IFilter
+    public class ComparisonFilter : IFilter
     {
         public string Column { get; set; }
         public string Value { get; set; }
         public FilterComparer.Types Comparer { get; set; }
 
-        public Filter(string column, string value, FilterComparer.Types comparer)
+        public ComparisonFilter(string column, string value, FilterComparer.Types comparer)
         {
             Column = column;
             Value = value;

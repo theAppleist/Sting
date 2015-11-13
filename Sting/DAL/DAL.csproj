@@ -48,9 +48,10 @@
     <Compile Include="Communicator\TableCommunicator.cs" />
     <Compile Include="Filter\ComplexFilter.cs" />
     <Compile Include="Filter\ComplexFilterOperator.cs" />
-    <Compile Include="Filter\Filter.cs" />
+    <Compile Include="Filter\ComparisonFilter.cs" />
     <Compile Include="Filter\FilterComparer.cs" />
     <Compile Include="Filter\IFilter.cs" />
+    <Compile Include="Filter\WhereFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
