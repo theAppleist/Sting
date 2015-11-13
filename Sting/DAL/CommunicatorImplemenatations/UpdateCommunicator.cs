@@ -21,6 +21,7 @@ namespace DAL.CommunicatorImplemenatations
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
                     string baseQuery = string.Format("UPDATE {0}");

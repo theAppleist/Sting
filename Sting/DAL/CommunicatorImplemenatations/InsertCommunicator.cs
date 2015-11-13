@@ -28,6 +28,7 @@ namespace DAL.CommunicatorImplemenatations
             int id = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 SqlCommand command = new SqlCommand(commandString);
                 id = (int)command.ExecuteScalar();
             }
