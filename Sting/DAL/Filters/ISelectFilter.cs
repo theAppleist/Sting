@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Filters
 {
-    public interface IFilter
+    public interface ISelectFilter : IFilter
     {
-        string GetFilterString();
+
     }
 }

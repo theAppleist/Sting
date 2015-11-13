@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Communicator;
-using DAL.Filter;
+using DAL.Filters;
 using System.Data.SqlClient;
 
 namespace DAL.CommunicatorImplemenatations
@@ -29,7 +29,7 @@ namespace DAL.CommunicatorImplemenatations
             return _communicatorType;
         }
 
-        public IEnumerable<object> GetRecords(params IFilter[] filters)
+        public IEnumerable<object> GetRecords(ISelectFilter select, params IFilter[] filters)
         {
             List<object> records = new List<object>();
             using (SqlConnection client = new SqlConnection(connectionString))

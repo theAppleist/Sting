@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace DAL.Filters
 {
-    public class SetFilter : IFilter
+    public class SelectTopFilter : ISelectFilter
     {
-        public IFilter Filter { get; set; }
-        public SetFilter(IFilter filter)
+        public int Number { get; set; }
+
+        public SelectTopFilter(int number)
         {
-            Filter = filter;
+            Number = number;
         }
 
         public string GetFilterString()
         {
-            return string.Format("SET {0}", Filter);
+            return string.Format("SELECT TOP {0}", Number);
         }
 
         public override string ToString()
