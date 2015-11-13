@@ -9,7 +9,7 @@ namespace DAL.Communicator
 {
     public interface ICommunicator
     {
-        Type GetCommunicatorType();
+        Type GetCommunicatorModelType();
         IEnumerable<object> GetRecords(IFilter filter);
         IEnumerable<string> GetColumns(); 
     }
