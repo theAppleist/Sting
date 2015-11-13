@@ -117,7 +117,13 @@ namespace Sting.Controllers
                                     new CombinationFilter(
                                         new CombinationFilter(
                                             new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Description")),
-                                            new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "OwnerId"))),
+                                            new CombinationFilter(
+                                                new CombinationFilter(
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "Id")),
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "RoleId"))),
+                                                new CombinationFilter(
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "FirstName")),
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "LastName"))))),
                                         new CombinationFilter(
                                             new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Longtitude")),
                                             new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Latitude"))))),

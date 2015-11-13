@@ -14,18 +14,21 @@ namespace Sting.Controllers
 {
     public class PlacesController : ApiController
     {
+        private const string DB_NAME = "dbo.Places";
+        private const string USERS_DB_NAME = "dbo.Users";
+
         public IEnumerable<Place> GetPlaces()
         {
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
-            return (IEnumerable<Place>)communicator.GetRecords(new SelectFilter(),null);
+            return (IEnumerable<Place>)communicator.GetRecords(new SelectFilter(), GetValues());
         }
 
         public Place GetPlace(int id)
         {
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
-            return (Place)communicator.GetRecords(new SelectFilter(),new WhereFilter(new ComparisonFilter("Id",""+id,FilterComparer.Types.Equals)));
+            return (Place)communicator.GetRecords(new SelectFilter(), GetValues() ,new WhereFilter(new ComparisonFilter("Id",""+id,FilterComparer.Types.Equals)));
         }
 
 
@@ -37,6 +40,29 @@ namespace Sting.Controllers
         public void DeletePlace(int id)
         {
             throw new NotImplementedException();
+        }
+
+        private IFilter GetValues()
+        {
+            return new CombinationFilter(
+                new CombinationFilter(
+                    new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Id")),
+                    new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Name"))),
+                new CombinationFilter(
+                    new CombinationFilter(
+                        new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Description")),
+                        new CombinationFilter(
+                            new CombinationFilter(
+                                new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "Id")),
+                                new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "RoleId"))),
+                            new CombinationFilter(
+                                new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "FirstName")),
+                                new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "LastName"))))),
+                    new CombinationFilter(
+                        new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Longtitude")),
+                        new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Latitude")))
+                    )
+                );
         }
     }
 }
