@@ -9,6 +9,10 @@ namespace DAL.CommunicatorImplemenatations
 {
     public class ReadCommunicator : TableCommunicator
     {
+        public ReadCommunicator(TableCommunicationParameters parameters)
+            :base(parameters)
+        {
 
+        }
     }
 }
