@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communicator\ICommunicator.cs" />
     <Compile Include="Filter\ComplexFilter.cs" />
     <Compile Include="Filter\ComplexFilterOperator.cs" />
     <Compile Include="Filter\Filter.cs" />
