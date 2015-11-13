@@ -50,14 +50,14 @@
     <Compile Include="Communicator\IUpdateCommunicator.cs" />
     <Compile Include="Communicator\TableCommunicator.cs" />
     <Compile Include="Communicator\TableCommunicatorParameters.cs" />
-    <Compile Include="Filter\CombinationFilter.cs" />
-    <Compile Include="Filter\ComplexFilter.cs" />
-    <Compile Include="Filter\ComplexFilterOperator.cs" />
-    <Compile Include="Filter\ComparisonFilter.cs" />
-    <Compile Include="Filter\FilterComparer.cs" />
-    <Compile Include="Filter\IFilter.cs" />
-    <Compile Include="Filter\SetFilter.cs" />
-    <Compile Include="Filter\WhereFilter.cs" />
+    <Compile Include="Filters\CombinationFilter.cs" />
+    <Compile Include="Filters\ComplexFilter.cs" />
+    <Compile Include="Filters\ComplexFilterOperator.cs" />
+    <Compile Include="Filters\ComparisonFilter.cs" />
+    <Compile Include="Filters\FilterComparer.cs" />
+    <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="Filters\SetFilter.cs" />
+    <Compile Include="Filters\WhereFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
