@@ -212,6 +212,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{6b195fef-5d5d-4679-a613-4cec5c975380}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StingCore\StingCore.csproj">
       <Project>{e76981b9-7e29-431e-b50d-35c5ba8798e8}</Project>
       <Name>StingCore</Name>
