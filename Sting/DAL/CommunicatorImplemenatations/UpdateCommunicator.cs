@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Filter;
+using DAL.Filters;
 using System.Data.SqlClient;
 
 namespace DAL.CommunicatorImplemenatations
@@ -16,9 +16,8 @@ namespace DAL.CommunicatorImplemenatations
         {
 
         }
-        
 
-        public bool Update(IDictionary<string, string> values, params IFilter[] filters)
+        public bool Update(params IFilter[] filters)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Filter
+namespace DAL.Filters
 {
     public class ComplexFilterOperator
     {

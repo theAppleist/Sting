@@ -56,6 +56,9 @@
     <Compile Include="Filters\ComparisonFilter.cs" />
     <Compile Include="Filters\FilterComparer.cs" />
     <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="Filters\ISelectFilter.cs" />
+    <Compile Include="Filters\SelectFilter.cs" />
+    <Compile Include="Filters\SelectTopFilter.cs" />
     <Compile Include="Filters\SetFilter.cs" />
     <Compile Include="Filters\WhereFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 namespace DAL.Filters
 {
-    public class WhereFilter : IFilter
+    public class SelectFilter : ISelectFilter
     {
-        public IFilter Condition { get; set; }
-
-        public WhereFilter(IFilter condition)
+        public SelectFilter()
         {
-            Condition = condition;
+
         }
 
         public string GetFilterString()
         {
-            return string.Format("WHERE {0}", Condition);
+            return string.Format("SELECT");
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DAL.Filter;
+﻿using DAL.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace DAL.Communicator
 {
     public interface IUpdateCommunicator
     {
-        bool Update(IDictionary<string, string> values, params IFilter[] filters);
+        bool Update(params IFilter[] filters);
     }
 }
