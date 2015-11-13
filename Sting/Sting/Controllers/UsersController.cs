@@ -24,7 +24,7 @@ namespace Sting.Controllers
 
         public void Post(User user)
         {
-            var parameters = new TableCommunicationParameters("dbo.Users",ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,new List<string>{"RoleId,FirstName,LasstName"} );
+            var parameters = new TableCommunicationParameters("dbo.Users",ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,new List<string>{"RoleId","FirstName","LastName"} );
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
             var id =communcitor.Insert(new CombinationFilter(new ValueFilter(user.RoleId), new CombinationFilter(new ValueFilter(user.FirstName), new ValueFilter(user.LastName))));
             if (id == -1)
