@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Communicator;
+using DAL.Filters;
 
 namespace DAL.CommunicatorImplemenatations
 {
@@ -19,11 +20,10 @@ namespace DAL.CommunicatorImplemenatations
         {
         }
 
-        public int Insert(object insertedObject)
+        public int Insert(IFilter valuesFilter)
         {
-            string values = GenerateValuesString(insertedObject);
-            string insertInto = tableName + "(" + GenerateColumsString() + ")";
-            var commandString = String.Format(InsertCommand, insertInto, values);
+            string insertInto = string.Format("{0} ({1})",tableName, string.Join(",", columns));
+            var commandString = string.Format(InsertCommand, insertInto, valuesFilter.GetFilterString());
 
             int id = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -34,27 +34,16 @@ namespace DAL.CommunicatorImplemenatations
             return id;
         }
 
-        private string GenerateValuesString(object data)
-        {
-            StringBuilder builder = new StringBuilder();
-            foreach (var property in data.GetType().GetProperties())
-            {
-                builder.Append(property.GetValue(data));
-            }
-            return builder.ToString();
-        }
+        //private string GenerateValuesString(object data)
+        //{
+        //    StringBuilder builder = new StringBuilder();
+        //    foreach (var property in data.GetType().GetProperties())
+        //    {
+        //        builder.Append(property.GetValue(data));
+        //    }
+        //    return builder.ToString();
+        //}
 
-        private string GenerateColumsString()
-        {
-            StringBuilder builder = new StringBuilder();
-            foreach (var col in columns)
-            {
-                builder.Append(col);
-                builder.Append(",");
-            }
-            builder.Remove(builder.Length - 1, 1);
-            return builder.ToString();
-        }
         private string GenerateKeysString(List<object> keys)
         {
             throw new NotImplementedException();
