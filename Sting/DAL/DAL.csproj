@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommunicatorImplemenatations\InsertCommunicator.cs" />
     <Compile Include="Communicator\IDeleteCommunicator.cs" />
     <Compile Include="Communicator\IInsertCommuncitor.cs" />
     <Compile Include="Communicator\IReadCommunicator.cs" />
     <Compile Include="Communicator\IUpdateCommunicator.cs" />
+    <Compile Include="Communicator\TableCommunicator.cs" />
     <Compile Include="Filter\ComplexFilter.cs" />
     <Compile Include="Filter\ComplexFilterOperator.cs" />
     <Compile Include="Filter\Filter.cs" />
