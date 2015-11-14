@@ -54,24 +54,15 @@ namespace DAL.TableCommunicator
         private IFilter GetValues()
         {
             return new CombinationFilter(
-                new CombinationFilter(
-                    new CombinationFilter(
-                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Id")),
-                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Name"))),
-                    new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Description"))),
-                new CombinationFilter(
-                    new CombinationFilter(
-                        new CombinationFilter(
-                            new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
-                            new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId"))),
-                        new CombinationFilter(
-                            new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
-                            new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName")))),
-                    new CombinationFilter(
-                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Longtitude")),
-                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Latitude")))
-                    )
-                );
+                new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Id")),
+                new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Name")),
+                new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Description")),
+                new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
+                new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId")),
+                new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
+                new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName")),
+                new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Longtitude")),
+                new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Latitude")));
         }
         private int GetPlace(Place place)
         {
@@ -107,7 +98,7 @@ namespace DAL.TableCommunicator
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { "Name", "Description", "OwnerId", "Longtitude", "Latitude" });
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
             SqlPlaceModel sqlModel = new SqlPlaceModel(place);
-            return communcitor.Insert(new CombinationFilter(new ValueFilterWithComma(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithComma(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
+            return communcitor.Insert(new CombinationFilter(new ValueFilterWithApostrophe(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithApostrophe(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
         }
 
     }

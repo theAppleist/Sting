@@ -37,7 +37,7 @@ namespace DAL.TableCommunicator
         public int Insert(User user)
         {
             IInsertCommuncitor communcitor = new InsertCommunicator(_parameters);
-            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(user.RoleId), new CombinationFilter(new ValueFilterWithComma(user.FirstName), new ValueFilterWithComma(user.LastName))));
+            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(user.RoleId), new CombinationFilter(new ValueFilterWithApostrophe(user.FirstName), new ValueFilterWithApostrophe(user.LastName))));
             return id;
         }
 
