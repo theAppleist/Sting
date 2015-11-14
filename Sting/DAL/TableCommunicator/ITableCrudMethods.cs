@@ -11,7 +11,7 @@ namespace DAL.TableCommunicator
     public interface ITableCrudMethods<T>
     {
         T Read(int id);
-        IEnumerable<T> Read(IFilter filter); 
+        T[] Read(IFilter filter); 
         int Insert(T data);
     }
 }

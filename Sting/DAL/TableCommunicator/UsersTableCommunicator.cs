@@ -42,7 +42,7 @@ namespace DAL.TableCommunicator
         }
 
 
-        public IEnumerable<User> Read(IFilter filter)
+        public User[] Read(IFilter filter)
         {
             throw new NotImplementedException();
         }

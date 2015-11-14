@@ -45,11 +45,14 @@ namespace DAL.TableCommunicator
         }
 
 
-        public IEnumerable<Place> Read(Filters.IFilter filter)
+        public Place[] Read(Filters.IFilter filter)
         {
             IReadCommunicator communicator = new ReadCommunicator(_parameters, typeof(Place));
-            return (IEnumerable<Place>)communicator.GetRecords(new SelectFilter(), GetValues());
-        
+            var result = communicator.GetRecords(new SelectFilter(), GetValues(), 
+                    new JoinFilter(FilterJoin.Types.InnerJoin,
+                    new ComparisonFilter("dbo.Users.Id", "dbo.Places.OwnerId", FilterComparer.Types.Equals), new ValueFilter("dbo.Users"))
+            );
+            return result.OfType<Place>().ToArray();
         }
         private IFilter GetValues()
         {
