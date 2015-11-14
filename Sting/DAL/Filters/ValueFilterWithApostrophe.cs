@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Filters
 {
-    public class ValueFilterWithComma : ValueFilter
+    public class ValueFilterWithApostrophe : ValueFilter
     {
-        public ValueFilterWithComma(object data)
+        public ValueFilterWithApostrophe(object data)
             : base(data)
         {
             
@@ -16,7 +16,7 @@ namespace DAL.Filters
 
         public override string GetFilterString()
         {
-            return String.Format("'{0}'",base.GetFilterString());
+            return string.Format("'{0}'",base.GetFilterString());
         }
     }
 }

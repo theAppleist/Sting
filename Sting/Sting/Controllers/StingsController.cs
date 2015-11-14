@@ -52,7 +52,7 @@ namespace Sting.Controllers
                 placeId = InsertPlace(sting.Place);
             }
             SqlStingModel model = new SqlStingModel(sting.User.UserId, placeId, sting);
-            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(sting.User.UserId),new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilterWithComma(model.Timestamp)), new CombinationFilter(new ValueFilterWithComma(model.Description), new ValueFilter(model.Price)))));
+            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(sting.User.UserId),new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilterWithApostrophe(model.Timestamp)), new CombinationFilter(new ValueFilterWithApostrophe(model.Description), new ValueFilter(model.Price)))));
             if (id == -1)
             {
                 throw new HttpRequestException("cant add user ");
@@ -63,7 +63,7 @@ namespace Sting.Controllers
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { "Name", "Description", "OwnerId", "Longtitude", "Latitude" });
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
             SqlPlaceModel sqlModel = new SqlPlaceModel(place);
-            return communcitor.Insert(new CombinationFilter(new ValueFilterWithComma(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithComma(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
+            return communcitor.Insert(new CombinationFilter(new ValueFilterWithApostrophe(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithApostrophe(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
         }
 
         public void PutStings(int id, [FromBody]StingCore.Sting update)
