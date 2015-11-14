@@ -69,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableCommunicator\ITableCrudMethods.cs" />
     <Compile Include="TableCommunicator\PlacesTableCrud.cs" />
+    <Compile Include="TableCommunicator\StingsTableCrud.cs" />
     <Compile Include="TableCommunicator\UsersTableCommunicator.cs" />
   </ItemGroup>
   <ItemGroup>
