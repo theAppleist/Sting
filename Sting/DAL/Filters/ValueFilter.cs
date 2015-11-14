@@ -14,7 +14,7 @@ namespace DAL.Filters
             Value = value;
         }
 
-        public string GetFilterString()
+        public virtual string GetFilterString()
         {
             return Value.ToString();
         }

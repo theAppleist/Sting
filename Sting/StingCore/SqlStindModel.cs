@@ -20,7 +20,7 @@ namespace StingCore
             PlaceId = placeId;
             Timestamp = sting.Timestamp;
             Description = sting.Description;
-            Price = sting.Price;
+            Price = (float)sting.Price;
         }
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="Filters\SelectTopFilter.cs" />
     <Compile Include="Filters\SetFilter.cs" />
     <Compile Include="Filters\ValueFilter.cs" />
+    <Compile Include="Filters\ValueFilterWithComma.cs" />
     <Compile Include="Filters\WhereFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

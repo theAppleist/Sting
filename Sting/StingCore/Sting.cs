@@ -14,9 +14,9 @@ namespace StingCore
         public Place Place { get; set; }
         public DateTime Timestamp { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }  
 
-        public Sting(int stingId, User user, Place place, DateTime timestamp, string description, int price)
+        public Sting(int stingId, User user, Place place, DateTime timestamp, string description, double price)
         {
             StingId = stingId;
             User = user;

@@ -24,22 +24,26 @@ namespace Sting.Controllers
         public IEnumerable<StingCore.Sting> GetStings()
         {
             var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
-            IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
+            IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(StingCore.Sting));
             return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter(), GetValues());
         }
 
         public StingCore.Sting GetSting(int id)
         {
             var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
-            IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(User));
+            IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(StingCore.Sting));
             return (StingCore.Sting)communicator.GetRecords(new SelectFilter(),
                 GetValues(),
-                new WhereFilter(new ComparisonFilter("Id", "1", FilterComparer.Types.Equals)));
+                 new JoinFilter(FilterJoin.Types.InnerJoin, 
+                    new ComparisonFilter("dbo.Users.Id","dbo.Stings.UserId",FilterComparer.Types.Equals), new ValueFilter("dbo.Users") ), 
+                new JoinFilter(FilterJoin.Types.InnerJoin, 
+                    new ComparisonFilter("dbo.Places.Id","dbo.Stings.PlaceId",FilterComparer.Types.Equals), new ValueFilter("dbo.Places") ) ,
+                new WhereFilter(new ComparisonFilter("dbo.Stings.Id", ""+id, FilterComparer.Types.Equals))).FirstOrDefault();
         }
 
         public void PostStings(StingCore.Sting sting)
         {
-            var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { });
+            var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> {"UserId","PlaceId","Timestamp","Description","Price" });
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
 
             var placeId = GetPlace(sting);
@@ -48,19 +52,18 @@ namespace Sting.Controllers
                 placeId = InsertPlace(sting.Place);
             }
             SqlStingModel model = new SqlStingModel(sting.User.UserId, placeId, sting);
-            var id = communcitor.Insert(new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilter(model.Timestamp)), new CombinationFilter(new ValueFilter(model.Description), new ValueFilter(model.Price))));
+            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(sting.User.UserId),new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilterWithComma(model.Timestamp)), new CombinationFilter(new ValueFilterWithComma(model.Description), new ValueFilter(model.Price)))));
             if (id == -1)
             {
                 throw new HttpRequestException("cant add user ");
             }
         }
-
         private int InsertPlace(Place place)
         {
-            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { });
+            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> { "Name", "Description", "OwnerId", "Longtitude", "Latitude" });
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
             SqlPlaceModel sqlModel = new SqlPlaceModel(place);
-            return communcitor.Insert(new CombinationFilter(new ValueFilter(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilter(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
+            return communcitor.Insert(new CombinationFilter(new ValueFilterWithComma(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithComma(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
         }
 
         public void PutStings(int id, [FromBody]StingCore.Sting update)
@@ -85,12 +88,17 @@ namespace Sting.Controllers
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@lat", sting.Place.Position.Langtitude));
-                    command.Parameters.Add(new SqlParameter("@lot", sting.Place.Position.Longtitude));
+                    command.Parameters.Add(new SqlParameter("@lon", sting.Place.Position.Longtitude));
                     command.Parameters.Add(new SqlParameter("@maxDistance", 1));
                     command.Parameters.Add(new SqlParameter("@name", sting.Place.Name));
 
-                    var reader = command.ExecuteReader();
-                    id  = reader.GetInt32(0);
+                    SqlParameter output = new SqlParameter("@id", SqlDbType.Int);
+                    output.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(output);
+                    command.ExecuteNonQuery();
+
+
+                    id = (int) output.Value;
                 }
             }
             return id;

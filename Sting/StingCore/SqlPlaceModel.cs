@@ -21,8 +21,8 @@ namespace StingCore
             Name = place.Name;
             Description = place.Description;
             OwnerId = place.Owner.UserId;
-            Longtitude = place.Position.Longtitude;
-            Latitude = place.Position.Langtitude;
+            Longtitude = (float)place.Position.Longtitude;
+            Latitude = (float)place.Position.Langtitude;
 
         }
     }

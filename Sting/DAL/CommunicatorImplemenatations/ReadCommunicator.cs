@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,9 +76,9 @@ namespace DAL.CommunicatorImplemenatations
                 }
                 else
                 {
-                    int count = property.PropertyType.GetProperties().Count();
+                    int count = CalculateTotalCount(property.PropertyType);
                     object[] props = GetObjectsByRange(i, i + count, flatParameters);
-                    i += count;
+                    i += count-1;
                     properties[propertiesIndex] = CreateObject(property.PropertyType, props);
                 }
                 propertiesIndex++;
@@ -88,11 +89,28 @@ namespace DAL.CommunicatorImplemenatations
         private object[] GetObjectsByRange(int start, int end, object[] all)
         {
             object[] ret = new object[end - start];
-            for (int i = start; i < ret.Length; i++)
+            for (int i = 0; i < ret.Length; i++)
             {
-                ret[i - start] = all[i];
+                ret[i] = all[i+start];
             }
             return ret;
+        }
+
+        private int CalculateTotalCount(Type type)
+        {
+            int sum = 0;
+            foreach (var property in type.GetProperties())
+            {
+                if (!property.PropertyType.IsSubclassOf(typeof(StingCore.StingAbstractModel)))
+                {
+                    ++sum;
+                }
+                else
+                {
+                    sum += CalculateTotalCount(property.PropertyType) ;
+                }
+            }
+            return sum;
         }
     }
 }

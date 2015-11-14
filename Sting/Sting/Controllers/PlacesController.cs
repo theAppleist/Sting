@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,12 +30,21 @@ namespace Sting.Controllers
         {
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(Place));
-            return (Place)communicator.GetRecords(new SelectFilter(), GetValues(),new JoinFilter(FilterJoin.Types.InnerJoin, 
-                new ComparisonFilter("dbo.Users.Id","dbo.Places.OwnerId",FilterComparer.Types.Equals), new ValueFilter("dbo.Users") ) 
-                ,new WhereFilter(new ComparisonFilter("dbo.Places.Id",""+id,FilterComparer.Types.Equals))).FirstOrDefault();
+            return (Place)communicator.GetRecords(new SelectFilter(), GetValues(),
+                new JoinFilter(FilterJoin.Types.InnerJoin, 
+                    new ComparisonFilter("dbo.Users.Id","dbo.Places.OwnerId",FilterComparer.Types.Equals), new ValueFilter("dbo.Users") ) 
+               ,new WhereFilter(new ComparisonFilter("dbo.Places.Id",""+id,FilterComparer.Types.Equals))).FirstOrDefault();
         }
 
-
+        public int PostPlace(Place place)
+        {
+            var id = GetPlace(place);
+            if (id == -1)
+            {
+                return InsertPlace(place);
+            }
+            return id;
+        }
         public void PutPlace(int id, [FromBody]StingCore.Sting update)
         {
             throw new NotImplementedException();
@@ -66,5 +77,44 @@ namespace Sting.Controllers
                     )
                 );
         }
+        private int GetPlace(Place place)
+        {
+            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
+
+            int id = -1;
+            using (var conn = new SqlConnection(parameters.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand command = new SqlCommand("dbo.GetMatchingPlaces", conn))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@lat", place.Position.Langtitude));
+                    command.Parameters.Add(new SqlParameter("@lon", place.Position.Longtitude));
+                    command.Parameters.Add(new SqlParameter("@maxDistance", 1));
+                    command.Parameters.Add(new SqlParameter("@name", place.Name));
+
+                    SqlParameter output = new SqlParameter("@id", SqlDbType.Int);
+                    output.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(output);
+                    command.ExecuteNonQuery();
+
+
+                    id = (int)output.Value;
+                }
+            }
+            return id;
+
+        }
+
+        private int InsertPlace(Place place)
+        {
+            var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> {"Name","Description","OwnerId","Longtitude","Latitude" });
+            IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
+            SqlPlaceModel sqlModel = new SqlPlaceModel(place);
+            return communcitor.Insert(new CombinationFilter(new ValueFilterWithComma(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithComma(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
+        }
+
+
     }
+
 }
