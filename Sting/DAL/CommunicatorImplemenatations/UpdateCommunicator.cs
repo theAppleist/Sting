@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 
 namespace DAL.CommunicatorImplemenatations
 {
-    public class UpdateCommunicator : TableCommunicator, IUpdateCommunicator
+    public class UpdateCommunicator : Communicator.TableCommunicator, IUpdateCommunicator
     {
         public UpdateCommunicator(TableCommunicationParameters parameters)
             :base(parameters)

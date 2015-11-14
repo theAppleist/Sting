@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL.CommunicatorImplemenatations
 {
-    public class DeleteCommunicator : TableCommunicator, IDeleteCommunicator
+    public class DeleteCommunicator : Communicator.TableCommunicator, IDeleteCommunicator
     {
         public DeleteCommunicator(TableCommunicationParameters parameters)
             :base(parameters)
