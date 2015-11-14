@@ -34,7 +34,8 @@ namespace Sting.Controllers
         {
            
             ITableCrudMethods<StingCore.Sting> crud = new StingsTableCrud();
-            return crud.Read(id);
+            var result = crud.Read(id);
+            return result;
         }
 
         public int PostStings(StingCore.Sting sting)
