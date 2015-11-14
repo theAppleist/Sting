@@ -8,6 +8,7 @@ using System.Web.Http;
 using DAL.Communicator;
 using DAL.CommunicatorImplemenatations;
 using DAL.Filters;
+using DAL.TableCommunicator;
 using StingCore;
 
 namespace Sting.Controllers
@@ -17,20 +18,14 @@ namespace Sting.Controllers
     {
         public User Get(int id)
         {
-            var parameters = new TableCommunicationParameters("dbo.Users", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
-            IReadCommunicator communicator = new ReadCommunicator(parameters,typeof(User));
-            return (User)communicator.GetRecords(new SelectFilter(), null, new WhereFilter(new ComparisonFilter("Id", "" + id, FilterComparer.Types.Equals))).FirstOrDefault();
+            ITableCrudMethods<User> crud = new UsersTableCommunicator();
+            return crud.Read(id);
         }
-
-        public void Post(User user)
+        
+        public int Post(User user)
         {
-            var parameters = new TableCommunicationParameters("dbo.Users",ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString,new List<string>{"RoleId","FirstName","LastName"} );
-            IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
-            var id =communcitor.Insert(new CombinationFilter(new ValueFilter(user.RoleId), new CombinationFilter(new ValueFilterWithComma(user.FirstName), new ValueFilterWithComma(user.LastName))));
-            if (id == -1)
-            {
-                throw  new HttpRequestException("cant add user ");
-            }
+            ITableCrudMethods<User> crud = new UsersTableCommunicator();
+            return crud.Insert(user);
         }
     }
 }

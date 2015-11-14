@@ -10,6 +10,7 @@ using System.Web.Http;
 using DAL.Communicator;
 using DAL.CommunicatorImplemenatations;
 using DAL.Filters;
+using DAL.TableCommunicator;
 using StingCore;
 
 namespace Sting.Controllers
@@ -21,29 +22,39 @@ namespace Sting.Controllers
 
         public IEnumerable<Place> GetPlaces()
         {
+            /*
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(Place));
             return (IEnumerable<Place>)communicator.GetRecords(new SelectFilter(), GetValues());
+        */
+            ITableCrudMethods<Place> crud = new PlacesTableCrud();
+            return crud.Read(null);
         }
 
         public Place GetPlace(int id)
         {
+            /*
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(Place));
             return (Place)communicator.GetRecords(new SelectFilter(), GetValues(),
                 new JoinFilter(FilterJoin.Types.InnerJoin, 
                     new ComparisonFilter("dbo.Users.Id","dbo.Places.OwnerId",FilterComparer.Types.Equals), new ValueFilter("dbo.Users") ) 
                ,new WhereFilter(new ComparisonFilter("dbo.Places.Id",""+id,FilterComparer.Types.Equals))).FirstOrDefault();
+            */
+            ITableCrudMethods<Place> crud = new PlacesTableCrud();
+            return crud.Read(id);
         }
 
         public int PostPlace(Place place)
         {
-            var id = GetPlace(place);
-            if (id == -1)
-            {
-                return InsertPlace(place);
-            }
-            return id;
+        //    var id = GetPlace(place);
+        //    if (id == -1)
+        //    {
+        //        return InsertPlace(place);
+        //    }
+        //    return id;
+            ITableCrudMethods<Place> crud = new PlacesTableCrud();
+            return crud.Insert(place);
         }
         public void PutPlace(int id, [FromBody]StingCore.Sting update)
         {

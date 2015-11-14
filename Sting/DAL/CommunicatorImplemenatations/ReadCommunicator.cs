@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 
 namespace DAL.CommunicatorImplemenatations
 {
-    public class ReadCommunicator : TableCommunicator, IReadCommunicator
+    public class ReadCommunicator : Communicator.TableCommunicator, IReadCommunicator
     {
         private Type _communicatorType;
 

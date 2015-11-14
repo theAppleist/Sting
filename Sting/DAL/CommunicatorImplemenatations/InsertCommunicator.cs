@@ -11,7 +11,7 @@ using DAL.Filters;
 namespace DAL.CommunicatorImplemenatations
 {
     //refacctor becuse need to have columns in the order of properties
-    public class InsertCommunicator :TableCommunicator, IInsertCommuncitor
+    public class InsertCommunicator :Communicator.TableCommunicator, IInsertCommuncitor
     {
         private readonly string InsertCommand = "INSERT INTO {0} OUTPUT INSERTED.ID VALUES ({1})";  
         
