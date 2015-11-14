@@ -10,11 +10,11 @@ namespace StingCore
     {
         public int PlaceId { get; set; }
         public string Name { get; set; }
-        public User Owner { get; set; }
         public string Description { get; set; }
+        public User Owner { get; set; }
         public Position Position { get; set; }
 
-        public Place(int placeId, string name, User owner, string description, Position position)
+        public Place(int placeId, string name, string description, User owner, Position position)
         {
             PlaceId = placeId;
             Name = name;

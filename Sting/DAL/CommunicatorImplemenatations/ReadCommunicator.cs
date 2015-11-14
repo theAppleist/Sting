@@ -68,17 +68,17 @@ namespace DAL.CommunicatorImplemenatations
             for (int i = 0; i < flatParameters.Length; i++)
             {
                 var property = type.GetProperties().ElementAt(propertiesIndex);
-                var t = property.GetType(); 
-                if (!property.GetType().IsSubclassOf(typeof(StingCore.StingAbstractModel)))
+                var t = property.PropertyType; 
+                if (!property.PropertyType.IsSubclassOf(typeof(StingCore.StingAbstractModel)))
                 {
                     properties[propertiesIndex] = flatParameters[i];
                 }
                 else
                 {
-                    int count = property.GetType().GetProperties().Count();
+                    int count = property.PropertyType.GetProperties().Count();
                     object[] props = GetObjectsByRange(i, i + count, flatParameters);
                     i += count;
-                    properties[propertiesIndex] = CreateObject(property.GetType(), props);
+                    properties[propertiesIndex] = CreateObject(property.PropertyType, props);
                 }
                 propertiesIndex++;
             }
