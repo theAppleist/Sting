@@ -20,7 +20,7 @@ namespace Sting.Controllers
         private const string DB_NAME = "dbo.Places";
         private const string USERS_DB_NAME = "dbo.Users";
 
-        public IEnumerable<Place> GetPlaces()
+        public Place[] GetPlaces()
         {
             /*
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
@@ -122,7 +122,7 @@ namespace Sting.Controllers
             var parameters = new TableCommunicationParameters("dbo.Places", ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> {"Name","Description","OwnerId","Longtitude","Latitude" });
             IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
             SqlPlaceModel sqlModel = new SqlPlaceModel(place);
-            return communcitor.Insert(new CombinationFilter(new ValueFilterWithApostrophe(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithApostrophe(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
+            return communcitor.Insert(new CombinationFilter(new DAL.Filters.ValueFilterWithApostrophe(sqlModel.Name), new CombinationFilter(new CombinationFilter(new ValueFilterWithApostrophe(sqlModel.Description), new ValueFilter(sqlModel.OwnerId)), new CombinationFilter(new ValueFilter(sqlModel.Longtitude), new ValueFilter(sqlModel.Latitude)))));
         }
 
 

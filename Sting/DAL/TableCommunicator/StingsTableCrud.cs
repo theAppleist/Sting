@@ -39,10 +39,14 @@ namespace DAL.TableCommunicator
                 new WhereFilter(new ComparisonFilter("dbo.Stings.Id", id.ToString(), FilterComparer.Types.Equals))).FirstOrDefault();
         }
 
-        public IEnumerable<StingCore.Sting> Read(Filters.IFilter filter)
+        public StingCore.Sting[] Read(Filters.IFilter filter)
         {
             IReadCommunicator communicator = new ReadCommunicator(_parameters, typeof(StingCore.Sting));
-            return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter(), GetValues());
+            var result = communicator.GetRecords(new SelectFilter(), GetValues(), new JoinFilter(FilterJoin.Types.InnerJoin,
+                    new ComparisonFilter("dbo.Users.Id", "dbo.Stings.UserId", FilterComparer.Types.Equals), new ValueFilter(USERS_TABLE_NAME)),
+                new JoinFilter(FilterJoin.Types.InnerJoin,
+                    new ComparisonFilter("dbo.Places.Id", "dbo.Stings.PlaceId", FilterComparer.Types.Equals), new ValueFilter(PLACES_TABLE_NAME)));
+            return result.OfType<StingCore.Sting>().ToArray();
         }
 
         public int Insert(StingCore.Sting sting)
@@ -56,7 +60,7 @@ namespace DAL.TableCommunicator
                 placeId = place.Insert(sting.Place);
             }
             SqlStingModel model = new SqlStingModel(sting.User.UserId, placeId, sting);
-            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(sting.User.UserId), new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilterWithComma(model.Timestamp)), new CombinationFilter(new ValueFilterWithComma(model.Description), new ValueFilter(model.Price)))));
+            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(sting.User.UserId), new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilterWithApostrophe(model.Timestamp)), new CombinationFilter(new ValueFilterWithApostrophe(model.Description), new ValueFilter(model.Price)))));
             return id;
         }
 
