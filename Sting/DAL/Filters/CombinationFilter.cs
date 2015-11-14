@@ -8,18 +8,16 @@ namespace DAL.Filters
 {
     public class CombinationFilter : IFilter
     {
-        public IFilter FirstFilter { get; set; }
-        public IFilter SecondFilter { get; set; }
+        public IFilter[] Filters { get; set; }
 
-        public CombinationFilter(IFilter firstFilter, IFilter secondFilter)
+        public CombinationFilter(params IFilter[] filters)
         {
-            FirstFilter = firstFilter;
-            SecondFilter = secondFilter;
+            Filters = filters;
         }
 
         public string GetFilterString()
         {
-            return string.Format("{0},{1}",FirstFilter,SecondFilter);
+            return string.Join(",", Filters.ToList());
         }
 
         public override string ToString()
