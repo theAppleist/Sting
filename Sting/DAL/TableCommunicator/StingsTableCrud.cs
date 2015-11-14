@@ -93,37 +93,22 @@ namespace DAL.TableCommunicator
         {
             return new CombinationFilter(
                         new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Id")),
-                        new CombinationFilter(
-                            new CombinationFilter(
-                                new CombinationFilter(
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId"))),
-                                new CombinationFilter(
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName")))),
-                            new CombinationFilter(
-                                new CombinationFilter(
-                                    new CombinationFilter(
-                                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Id")),
-                                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Name"))),
-                                    new CombinationFilter(
-                                        new CombinationFilter(
-                                            new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Description")),
-                                            new CombinationFilter(
-                                                new CombinationFilter(
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId"))),
-                                                new CombinationFilter(
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName"))))),
-                                        new CombinationFilter(
-                                            new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Longtitude")),
-                                            new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Latitude"))))),
-                                new CombinationFilter(
-                                    new CombinationFilter(
-                                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Timestamp")),
-                                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Description"))),
-                                    new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Price"))))));
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId")),
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName")),
+                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Id")),
+                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Name")),
+                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Description")),
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId")),
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
+                        new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName")),
+                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Longtitude")),
+                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Latitude")),
+                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Timestamp")),
+                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Description")),
+                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Price")));
         }
     }
 }
