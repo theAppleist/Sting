@@ -9,10 +9,10 @@ namespace StingCore
 {
     public class Position : StingAbstractModel
     {
-        public float Longtitude { get; private set; }
-        public float Langtitude { get; private set; }
+        public double Longtitude { get; set; }
+        public double Langtitude { get; set; }
 
-        public Position(float longtitude, float langtitude)
+        public Position(double longtitude, double langtitude)
         {
             Longtitude = longtitude;
             Langtitude = langtitude;

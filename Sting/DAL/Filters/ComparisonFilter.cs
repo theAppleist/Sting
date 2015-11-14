@@ -8,20 +8,20 @@ namespace DAL.Filters
 {
     public class ComparisonFilter : IFilter
     {
-        public string Column { get; set; }
-        public string Value { get; set; }
+        public string LeftSide { get; set; }
+        public string RightSide { get; set; }
         public FilterComparer.Types Comparer { get; set; }
 
-        public ComparisonFilter(string column, string value, FilterComparer.Types comparer)
+        public ComparisonFilter(string leftSide, string rightSide, FilterComparer.Types comparer)
         {
-            Column = column;
-            Value = value;
+            LeftSide = leftSide;
+            RightSide = rightSide;
             Comparer = comparer;
         }
 
         public string GetFilterString()
         {
-            return string.Format("({0}{1}'{2}')", Column, FilterComparer.ConvertToString(Comparer), Value);
+            return string.Format("({0}{1}{2})", LeftSide, FilterComparer.ConvertToString(Comparer), RightSide);
         }
 
         public override string ToString()
