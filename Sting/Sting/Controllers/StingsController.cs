@@ -10,7 +10,9 @@ using System.Web.Http;
 using DAL.Communicator;
 using DAL.CommunicatorImplemenatations;
 using DAL.Filters;
+using DAL.TableCommunicator;
 using StingCore;
+using Sting = StingCore.Sting;
 
 namespace Sting.Controllers
 {
@@ -23,13 +25,16 @@ namespace Sting.Controllers
 
         public IEnumerable<StingCore.Sting> GetStings()
         {
-            var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
-            IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(StingCore.Sting));
-            return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter(), GetValues());
+            //var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
+            //IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(StingCore.Sting));
+            //return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter(), GetValues());
+            ITableCrudMethods<StingCore.Sting> crud = new StingsTableCrud();
+            return crud.Read(null);
         }
 
         public StingCore.Sting GetSting(int id)
         {
+            /*
             var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string>());
             IReadCommunicator communicator = new ReadCommunicator(parameters, typeof(StingCore.Sting));
             return (StingCore.Sting)communicator.GetRecords(new SelectFilter(),
@@ -39,24 +44,15 @@ namespace Sting.Controllers
                 new JoinFilter(FilterJoin.Types.InnerJoin, 
                     new ComparisonFilter("dbo.Places.Id","dbo.Stings.PlaceId",FilterComparer.Types.Equals), new ValueFilter("dbo.Places") ) ,
                 new WhereFilter(new ComparisonFilter("dbo.Stings.Id", ""+id, FilterComparer.Types.Equals))).FirstOrDefault();
+            */
+            ITableCrudMethods<StingCore.Sting> crud = new StingsTableCrud();
+            return crud.Read(id);
         }
 
-        public void PostStings(StingCore.Sting sting)
+        public int PostStings(StingCore.Sting sting)
         {
-            var parameters = new TableCommunicationParameters(DB_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, new List<string> {"UserId","PlaceId","Timestamp","Description","Price" });
-            IInsertCommuncitor communcitor = new InsertCommunicator(parameters);
-
-            var placeId = GetPlace(sting);
-            if (placeId == -1)
-            {
-                placeId = InsertPlace(sting.Place);
-            }
-            SqlStingModel model = new SqlStingModel(sting.User.UserId, placeId, sting);
-            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(sting.User.UserId),new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilterWithComma(model.Timestamp)), new CombinationFilter(new ValueFilterWithComma(model.Description), new ValueFilter(model.Price)))));
-            if (id == -1)
-            {
-                throw new HttpRequestException("cant add user ");
-            }
+            ITableCrudMethods<StingCore.Sting> crud = new StingsTableCrud();
+            return crud.Insert(sting);
         }
         private int InsertPlace(Place place)
         {

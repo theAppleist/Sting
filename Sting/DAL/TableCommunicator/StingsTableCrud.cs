@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Communicator;
+using DAL.CommunicatorImplemenatations;
 using DAL.Filters;
+using StingCore;
 
 namespace DAL.TableCommunicator
 {
@@ -17,25 +19,45 @@ namespace DAL.TableCommunicator
         //later take from configuration
         private const string TABLE_NAME = "dbo.Stings";
         private const string USERS_TABLE_NAME = "dbo.Users";
-        private readonly List<string> COLUMNS = new List<string> { "UserId", "PlaceId", "Timestamp", "Price" };
+        private const string PLACES_TABLE_NAME = "dbo.Places";
+
+        private readonly List<string> COLUMNS = new List<string> { "UserId", "PlaceId", "Timestamp","Description", "Price" };
 
         public StingsTableCrud()
         {
-            
+            _parameters = new TableCommunicationParameters(TABLE_NAME, ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, COLUMNS);
         }
         public StingCore.Sting Read(int id)
         {
-            throw new NotImplementedException();
+            IReadCommunicator communicator = new ReadCommunicator(_parameters, typeof(StingCore.Sting));
+            return (StingCore.Sting)communicator.GetRecords(new SelectFilter(),
+                GetValues(),
+                 new JoinFilter(FilterJoin.Types.InnerJoin,
+                    new ComparisonFilter("dbo.Users.Id", "dbo.Stings.UserId", FilterComparer.Types.Equals), new ValueFilter(USERS_TABLE_NAME)),
+                new JoinFilter(FilterJoin.Types.InnerJoin,
+                    new ComparisonFilter("dbo.Places.Id", "dbo.Stings.PlaceId", FilterComparer.Types.Equals), new ValueFilter(PLACES_TABLE_NAME)),
+                new WhereFilter(new ComparisonFilter("dbo.Stings.Id", id.ToString(), FilterComparer.Types.Equals))).FirstOrDefault();
         }
 
         public IEnumerable<StingCore.Sting> Read(Filters.IFilter filter)
         {
-            throw new NotImplementedException();
+            IReadCommunicator communicator = new ReadCommunicator(_parameters, typeof(StingCore.Sting));
+            return (IEnumerable<StingCore.Sting>)communicator.GetRecords(new SelectFilter(), GetValues());
         }
 
-        public int Insert(StingCore.Sting data)
+        public int Insert(StingCore.Sting sting)
         {
-            throw new NotImplementedException();
+            IInsertCommuncitor communcitor = new InsertCommunicator(_parameters);
+
+            var placeId = GetPlace(sting);
+            if (placeId == -1)
+            {
+                ITableCrudMethods<Place> place = new PlacesTableCrud();
+                placeId = place.Insert(sting.Place);
+            }
+            SqlStingModel model = new SqlStingModel(sting.User.UserId, placeId, sting);
+            var id = communcitor.Insert(new CombinationFilter(new ValueFilter(sting.User.UserId), new CombinationFilter(new CombinationFilter(new ValueFilter(model.PlaceId), new ValueFilterWithComma(model.Timestamp)), new CombinationFilter(new ValueFilterWithComma(model.Description), new ValueFilter(model.Price)))));
+            return id;
         }
 
         private int GetPlace(StingCore.Sting sting)
@@ -70,38 +92,38 @@ namespace DAL.TableCommunicator
         private IFilter GetValues()
         {
             return new CombinationFilter(
-                        new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Id")),
+                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Id")),
                         new CombinationFilter(
                             new CombinationFilter(
                                 new CombinationFilter(
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "Id")),
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "RoleId"))),
+                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
+                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId"))),
                                 new CombinationFilter(
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "FirstName")),
-                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "LastName")))),
+                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
+                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName")))),
                             new CombinationFilter(
                                 new CombinationFilter(
                                     new CombinationFilter(
-                                        new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Id")),
-                                        new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Name"))),
+                                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Id")),
+                                        new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Name"))),
                                     new CombinationFilter(
                                         new CombinationFilter(
-                                            new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Description")),
+                                            new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Description")),
                                             new CombinationFilter(
                                                 new CombinationFilter(
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "Id")),
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "RoleId"))),
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "Id")),
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "RoleId"))),
                                                 new CombinationFilter(
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "FirstName")),
-                                                    new ValueFilter(string.Format("{0}.{1}", USERS_DB_NAME, "LastName"))))),
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "FirstName")),
+                                                    new ValueFilter(string.Format("{0}.{1}", USERS_TABLE_NAME, "LastName"))))),
                                         new CombinationFilter(
-                                            new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Longtitude")),
-                                            new ValueFilter(string.Format("{0}.{1}", PLACES_DB_NAME, "Latitude"))))),
+                                            new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Longtitude")),
+                                            new ValueFilter(string.Format("{0}.{1}", PLACES_TABLE_NAME, "Latitude"))))),
                                 new CombinationFilter(
                                     new CombinationFilter(
-                                        new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Timestamp")),
-                                        new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Description"))),
-                                    new ValueFilter(string.Format("{0}.{1}", DB_NAME, "Price"))))));
+                                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Timestamp")),
+                                        new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Description"))),
+                                    new ValueFilter(string.Format("{0}.{1}", TABLE_NAME, "Price"))))));
         }
     }
 }
